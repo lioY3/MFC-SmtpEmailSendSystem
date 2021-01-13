@@ -76,7 +76,6 @@ void DialogSend::OnBnClickedOk()
 		m_Title.GetBuffer(0),
 		m_Letter.GetBuffer(0)
 	);
-	MessageBox(TEXT(m_Server.GetBuffer(0)));
 
 	int err;
 	if ((err = smtp.SendEmail_Ex()) != 0)
