@@ -27,6 +27,8 @@ public:
 		string userName,	//用户名
 		string password,	//密码
 		string targetEmail, //目的邮件地址
+		string CC,			//抄送
+		string BCC,			//密送
 		string emailTitle,  //主题
 		string content       //内容
 	);
@@ -39,6 +41,8 @@ public:
 	string user;
 	string pass;
 	string targetAddr;
+	string cc;
+	string bcc;
 	string title;
 	string content;
 	// 为了方便添加文件，删除文件，使用list容器
@@ -70,6 +74,8 @@ public:
 	void SetUserName(string& user);
 	void SetPass(string& pass);
 	void SetTargetEmail(string& targetAddr);
+	void SetCC(string& cc);
+	void SetBCC(string& bcc);
 	void SetEmailTitle(string& title);
 	void SetContent(string& content);
 	void SetPort(int port);

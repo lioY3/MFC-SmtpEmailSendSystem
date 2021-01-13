@@ -83,12 +83,17 @@ void DialogSend::OnBnClickedOk()
 		m_Addr.GetBuffer(0),
 		m_Pass.GetBuffer(0),
 		m_Receiver.GetBuffer(0),
+		m_CC.GetBuffer(0),
+		m_BCC.GetBuffer(0),
 		m_Title.GetBuffer(0),
 		m_Letter.GetBuffer(0)
 	);
 
 	string filePath = m_Attach.GetBuffer(0);
-	smtp.AddAttachment(filePath);
+	if (filePath.length() != 0)
+	{
+		smtp.AddAttachment(filePath);
+	}
 
 	int err;
 	if ((err = smtp.SendEmail_Ex()) != 0)
@@ -122,7 +127,20 @@ void DialogSend::OnBnClickedAgain()
 void DialogSend::OnBnClickedBtnView()
 {
 	// TODO:响应附件按钮
-
+	UpdateData(TRUE);
+	CFileDialog dlg(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, _T("All Files (*.*)|*.*||"));
+	if (dlg.DoModal() == IDOK)
+	{
+		CString sNewFile = dlg.GetPathName();
+		if (m_Attach.GetLength())
+		{
+			m_Attach += _T(", ");
+			m_Attach += sNewFile;
+		}
+		else
+			m_Attach = sNewFile;
+		UpdateData(FALSE);
+	}
 }
 
 
