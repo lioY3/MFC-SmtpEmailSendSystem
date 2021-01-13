@@ -83,6 +83,8 @@ CSmtp::CSmtp(
 	string userName,
 	string password,
 	string targetEmail,
+	string CC,
+	string BCC,
 	string emailTitle,
 	string content
 )
@@ -92,6 +94,8 @@ CSmtp::CSmtp(
 	this->user = userName;
 	this->pass = password;
 	this->targetAddr = targetEmail;
+	this->cc = CC;
+	this->bcc = BCC;
 	this->title = emailTitle;
 	this->domain = srvDomain;
 
@@ -225,6 +229,8 @@ bool CSmtp::SendEmailHead()		//发送邮件头部信息
 	sendBuff.empty();
 
 	sendBuff = "RCPT TO: <" + targetAddr + ">\r\n";
+	sendBuff += "RCPT TO: <" + cc + ">\r\n";
+	sendBuff += "RCPT TO: <" + bcc + ">\r\n";
 	
 	if (false == Send(sendBuff) || false == Recv())
 	{
@@ -258,12 +264,12 @@ void CSmtp::FormatEmailHead(string & email)
 	email += targetAddr;
 	email += "\r\n";
 
-	email += "BCC: ";
-	email += "z873278492@163.com";
+	email += "CC: ";
+	email += cc;
 	email += "\r\n";
 
 	email += "BCC: ";
-	email += "974098492@qq.com";
+	email += bcc;
 	email += "\r\n";
 
 	email += "Subject: ";
@@ -444,6 +450,14 @@ void CSmtp::SetPass(string & pass)
 void CSmtp::SetTargetEmail(string & targetAddr)
 {
 	this->targetAddr = targetAddr;
+}
+void CSmtp::SetCC(string & cc)
+{
+	this->cc = cc;
+}
+void CSmtp::SetBCC(string & bcc)
+{
+	this->bcc = bcc;
 }
 void CSmtp::SetEmailTitle(string & title)
 {

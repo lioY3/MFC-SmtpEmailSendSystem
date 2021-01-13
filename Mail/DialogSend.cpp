@@ -88,6 +88,8 @@ void DialogSend::OnBnClickedOk()
 		m_Addr.GetBuffer(0),
 		m_Pass.GetBuffer(0),
 		m_Receiver.GetBuffer(0),
+		m_CC.GetBuffer(0),
+		m_BCC.GetBuffer(0),
 		m_Title.GetBuffer(0),
 		m_Letter.GetBuffer(0)
 	);
