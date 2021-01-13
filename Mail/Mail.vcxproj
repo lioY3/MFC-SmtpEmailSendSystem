@@ -210,7 +210,6 @@
     <ClCompile Include="DialogSend.cpp" />
     <ClCompile Include="Mail.cpp" />
     <ClCompile Include="MailDlg.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="MySQLConnector.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
