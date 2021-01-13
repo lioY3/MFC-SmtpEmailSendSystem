@@ -199,6 +199,7 @@ void CMailDlg::OnBnClickedOk()
 	else
 	{
 		MessageBox(TEXT("登录成功！"));
+		total_friend = get_all_friend();
 		this->ShowWindow(SW_HIDE);
 		DialogSend dlg;//你添加的对话框的头文件要加到原对话框的.cpp文件中 否则编译不通过
 		dlg.DoModal();

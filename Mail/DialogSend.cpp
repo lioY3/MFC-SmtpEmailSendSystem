@@ -6,7 +6,7 @@
 #include "DialogSend.h"
 #include "afxdialogex.h"
 #include "Smtp.h"
-
+#include "MySQLConnector.h"
 
 // DialogSend 对话框
 
@@ -16,7 +16,7 @@ DialogSend::DialogSend(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_DIALOGSend, pParent)
 {
 	m_Name = _T("");
-	m_Addr = _T("");
+	m_Addr = _T(email);
 	m_Server = _T("");
 	m_Port = _T(25);
 	m_User = _T("");
@@ -28,10 +28,12 @@ DialogSend::DialogSend(CWnd* pParent /*=nullptr*/)
 	m_Attach = _T("");
 	m_Letter = _T("");
 	m_Info = _T("");
+	
 }
 
 DialogSend::~DialogSend()
 {
+	mysql_close(mysql);
 }
 
 void DialogSend::DoDataExchange(CDataExchange* pDX)
@@ -47,6 +49,15 @@ void DialogSend::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_TITLE, m_Title);
 	DDX_Text(pDX, IDC_EDIT_ATTACH, m_Attach);
 	DDX_Text(pDX, IDC_EDIT_LETTER, m_Letter);
+	DDX_Control(pDX, IDC_LIST1, m_Friend);
+	char friend_info[50];
+	//sprintf_s(friend_info, " %-8s %-20s", "用户名", "好友邮箱");
+	//m_Friend.AddString(friend_info);
+	for (int i = 0;i < total_friend;i++)
+	{
+		sprintf_s(friend_info, " %-8s %-10s", friend_list[i][1], friend_list[i][2]);
+		m_Friend.AddString(friend_info);
+	}
 }
 
 
