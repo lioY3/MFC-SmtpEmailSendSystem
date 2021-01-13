@@ -127,6 +127,7 @@ void DialogSend::OnBnClickedAgain()
 void DialogSend::OnBnClickedBtnView()
 {
 	// TODO:响应附件按钮
+
 }
 
 

@@ -48,6 +48,9 @@
     <ClInclude Include="RegisterDLG.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="DialogAdd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Mail.cpp">
@@ -72,6 +75,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="RegisterDLG.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogAdd.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -102,6 +108,15 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="res\name.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\add.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\decrease.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon2.ico">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

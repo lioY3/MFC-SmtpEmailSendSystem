@@ -193,6 +193,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Downloads\MFC-Mail-app-master\Mail\targetver.h" />
+    <ClInclude Include="DialogAdd.h" />
     <ClInclude Include="DialogSend.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Mail.h" />
@@ -205,6 +206,7 @@
     <ClInclude Include="Smtp.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DialogAdd.cpp" />
     <ClCompile Include="DialogSend.cpp" />
     <ClCompile Include="Mail.cpp" />
     <ClCompile Include="MailDlg.cpp" />
@@ -227,6 +229,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\account.ico" />
+    <Image Include="res\add.ico" />
+    <Image Include="res\decrease.ico" />
+    <Image Include="res\icon2.ico" />
     <Image Include="res\key.bmp" />
     <Image Include="res\key.ico" />
     <Image Include="res\mail.bmp" />
