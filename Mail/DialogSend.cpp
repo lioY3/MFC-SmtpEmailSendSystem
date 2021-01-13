@@ -15,20 +15,14 @@ IMPLEMENT_DYNAMIC(DialogSend, CDialogEx)
 
 DialogSend::DialogSend(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_DIALOGSend, pParent)
+	,m_Name(_T("")), m_Addr(_T(email))
+	,m_Server(_T("")), m_Port(_T(25))
+	,m_User(_T("")),m_Pass(_T(pass))
+	,m_Receiver(_T("")),m_Title(_T(""))
+	,m_CC(_T("")),m_BCC(_T(""))
+	,m_Attach(_T("")),m_Letter(_T("")),m_Info(_T(""))
 {
-	m_Name = _T("");
-	m_Addr = _T(email);
-	m_Server = _T("");
-	m_Port = _T(25);
-	m_User = _T("");
-	m_Pass = _T(pass);
-	m_Receiver = _T("");
-	m_Title = _T("");
-	m_CC = _T("");
-	m_BCC = _T("");
-	m_Attach = _T("");
-	m_Letter = _T("");
-	m_Info = _T("");
+
 	
 }
 
@@ -170,5 +164,5 @@ void DialogSend::OnLbnSelchangeList1()
 	// TODO: 在此添加控件通知处理程序代码
 	int nIndex = m_Friend.GetCurSel();
 	m_Receiver = friend_list[nIndex][2];
-	UpdateData(false);
+	SetDlgItemText(IDC_EDIT_RECEIVER, m_Receiver);
 }
