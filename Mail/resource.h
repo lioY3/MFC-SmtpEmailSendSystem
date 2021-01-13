@@ -20,6 +20,10 @@
 #define IDI_ICON1                       142
 #define IDI_ICONKEY                     142
 #define IDI_ICONNAME                    143
+#define IDI_ICONADD                     145
+#define IDI_ICONDECREASE                146
+#define IDD_DIALOG2                     148
+#define IDD_DIALOGADD                   148
 #define IDC_BUTTON1                     1000
 #define IDC_LIST1                       1000
 #define IDC_BUTTON2                     1001
@@ -36,11 +40,14 @@
 #define IDC_EDIT_PASS2                  1007
 #define IDC_BTN_CONN                    1008
 #define IDC_EDIT_PASS3                  1008
+#define IDC_MFCBUTTONADD                1008
 #define IDC_BTN_DISC                    1009
+#define IDC_MFCBUTTONDECREASE           1009
 #define IDCANCAL                        1010
 #define IDC_BTN_VIEW                    1011
 #define IDC_BTN_SAVE                    1012
 #define IDC_TOREGISTER                  1012
+#define IDC_BTN_DELET                   1012
 #define IDC_EDIT_NAME                   1013
 #define IDC_EDIT_ADDR                   1014
 #define IDC_EDIT_PORT                   1016
@@ -59,9 +66,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        135
+#define _APS_NEXT_RESOURCE_VALUE        150
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1008
+#define _APS_NEXT_CONTROL_VALUE         1009
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

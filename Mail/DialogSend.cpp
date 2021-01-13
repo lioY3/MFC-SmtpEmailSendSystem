@@ -7,6 +7,7 @@
 #include "afxdialogex.h"
 #include "Smtp.h"
 #include "MySQLConnector.h"
+#include "DialogAdd.h"
 
 // DialogSend 对话框
 
@@ -66,6 +67,9 @@ BEGIN_MESSAGE_MAP(DialogSend, CDialogEx)
 	ON_BN_CLICKED(IDAGAIN, &DialogSend::OnBnClickedAgain)
 	ON_BN_CLICKED(IDC_BTN_VIEW, &DialogSend::OnBnClickedBtnView)
 	ON_EN_CHANGE(IDC_EDIT_NAME, &DialogSend::OnEnChangeEditName)
+	ON_BN_CLICKED(IDC_MFCBUTTONADD, &DialogSend::OnBnClickedMfcbuttonadd)
+	ON_BN_CLICKED(IDC_MFCBUTTONDECREASE, &DialogSend::OnBnClickedMfcbuttondecrease)
+	ON_BN_CLICKED(IDC_BTN_DELET, &DialogSend::OnBnClickedBtnDelet)
 END_MESSAGE_MAP()
 
 
@@ -131,4 +135,26 @@ void DialogSend::OnEnChangeEditName()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
+}
+
+
+
+void DialogSend::OnBnClickedMfcbuttonadd()
+{
+	// TODO:响应添加好友按钮
+	DialogAdd dlg;
+	dlg.DoModal();
+	this->ShowWindow(SW_SHOW);
+}
+
+
+void DialogSend::OnBnClickedMfcbuttondecrease()
+{
+	// TODO:响应删除好友按钮
+}
+
+
+void DialogSend::OnBnClickedBtnDelet()
+{
+	// TODO: 响应删除附件按钮
 }
