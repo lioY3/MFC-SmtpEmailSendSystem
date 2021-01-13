@@ -88,6 +88,9 @@ void DialogSend::OnBnClickedOk()
 		m_Letter.GetBuffer(0)
 	);
 
+	string filePath = m_Attach.GetBuffer(0);
+	smtp.AddAttachment(filePath);
+
 	int err;
 	if ((err = smtp.SendEmail_Ex()) != 0)
 	{
