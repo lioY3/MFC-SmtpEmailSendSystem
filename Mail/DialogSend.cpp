@@ -65,6 +65,7 @@ BEGIN_MESSAGE_MAP(DialogSend, CDialogEx)
 	ON_BN_CLICKED(IDC_MFCBUTTONDECREASE, &DialogSend::OnBnClickedMfcbuttondecrease)
 	ON_BN_CLICKED(IDC_BTN_DELET, &DialogSend::OnBnClickedBtnDelet)
 	ON_LBN_SELCHANGE(IDC_LIST1, &DialogSend::OnLbnSelchangeList1)
+	ON_WM_RBUTTONDOWN()
 END_MESSAGE_MAP()
 
 
@@ -99,7 +100,7 @@ void DialogSend::OnBnClickedOk()
 	if ((err = smtp.SendEmail_Ex()) != 0)
 	{
 		if (err == 1)
-			MessageBox(TEXT("错误1: 由于网络不畅通，发送失败!"));
+			MessageBox(TEXT("错误1: 由于网络问题或服务器填写错误，发送失败!"));
 		if (err == 2)
 			MessageBox(TEXT("错误2: 用户名错误,请核对!"));
 		if (err == 3)
@@ -183,4 +184,12 @@ void DialogSend::OnLbnSelchangeList1()
 	int nIndex = m_Friend.GetCurSel();
 	m_Receiver = friend_list[nIndex][2];
 	SetDlgItemText(IDC_EDIT_RECEIVER, m_Receiver);
+}
+
+
+void DialogSend::OnRButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+
+	CDialogEx::OnRButtonDown(nFlags, point);
 }
