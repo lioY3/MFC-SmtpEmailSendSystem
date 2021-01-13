@@ -40,5 +40,7 @@ public:
 	afx_msg void OnBnClickedAgain();
 	afx_msg void OnBnClickedBtnView();
 	afx_msg void OnEnChangeEditName();
-	
+	afx_msg void OnBnClickedMfcbuttonadd();
+	afx_msg void OnBnClickedMfcbuttondecrease();
+	afx_msg void OnBnClickedBtnDelet();
 };
