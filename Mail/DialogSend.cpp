@@ -95,7 +95,10 @@ void DialogSend::OnBnClickedOk()
 	);
 
 	string filePath = m_Attach.GetBuffer(0);
-	smtp.AddAttachment(filePath);
+	if (filePath.length() != 0)
+	{
+		smtp.AddAttachment(filePath);
+	}
 
 	int err;
 	if ((err = smtp.SendEmail_Ex()) != 0)
