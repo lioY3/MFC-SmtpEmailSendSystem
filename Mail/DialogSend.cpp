@@ -21,7 +21,7 @@ DialogSend::DialogSend(CWnd* pParent /*=nullptr*/)
 	m_Server = _T("");
 	m_Port = _T(25);
 	m_User = _T("");
-	m_Pass = _T("");
+	m_Pass = _T(pass);
 	m_Receiver = _T("");
 	m_Title = _T("");
 	m_CC = _T("");
@@ -51,10 +51,10 @@ void DialogSend::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_ATTACH, m_Attach);
 	DDX_Text(pDX, IDC_EDIT_LETTER, m_Letter);
 	DDX_Control(pDX, IDC_LIST1, m_Friend);
+	m_Friend.ResetContent();
 	char friend_info[50];
-	//sprintf_s(friend_info, " %-8s %-20s", "用户名", "好友邮箱");
-	//m_Friend.AddString(friend_info);
-	for (int i = 0;i < total_friend;i++)
+	total_friend = get_all_friend();
+	for (int i = 0;i < total_friend ;i++)
 	{
 		sprintf_s(friend_info, " %-8s %-10s", friend_list[i][1], friend_list[i][2]);
 		m_Friend.AddString(friend_info);
@@ -70,6 +70,7 @@ BEGIN_MESSAGE_MAP(DialogSend, CDialogEx)
 	ON_BN_CLICKED(IDC_MFCBUTTONADD, &DialogSend::OnBnClickedMfcbuttonadd)
 	ON_BN_CLICKED(IDC_MFCBUTTONDECREASE, &DialogSend::OnBnClickedMfcbuttondecrease)
 	ON_BN_CLICKED(IDC_BTN_DELET, &DialogSend::OnBnClickedBtnDelet)
+	ON_LBN_SELCHANGE(IDC_LIST1, &DialogSend::OnLbnSelchangeList1)
 END_MESSAGE_MAP()
 
 
@@ -80,7 +81,7 @@ void DialogSend::OnBnClickedOk()
 {
 	// TODO: 响应点击发送按钮的事件
 	UpdateData(true);
-	
+	strcpy_s(pass, m_Pass.GetBuffer(0));
 	int port = (int)m_Port;
 	CSmtp smtp(
 		port,
@@ -161,4 +162,13 @@ void DialogSend::OnBnClickedMfcbuttondecrease()
 void DialogSend::OnBnClickedBtnDelet()
 {
 	// TODO: 响应删除附件按钮
+}
+
+
+void DialogSend::OnLbnSelchangeList1()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	int nIndex = m_Friend.GetCurSel();
+	m_Receiver = friend_list[nIndex][2];
+	UpdateData(false);
 }

@@ -14,6 +14,7 @@ char query[150]; //查询语句
 char username[20];	//当前用户名
 int user_id;	//当前用户id
 char email[30];	//当前用户的邮箱
+char pass[30];	//当前用户授权码
 char friend_list[1024][3][30];
 int total_friend = 0;
 
