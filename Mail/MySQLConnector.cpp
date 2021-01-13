@@ -1,68 +1,86 @@
+#include "pch.h"
 #define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 #include"MySQLConnector.h"
 
 using namespace std;
 
-int main1()
-{
-	ConnectDatabase();
-	char password[20],email[255];
-	printf_s("输入用户名：");
-	scanf_s("%s", username,20);
-	printf_s("输入密码：");
-	scanf_s("%s", password,20);
-	if (!user_login(username, password))	//登录
-	{
-		printf_s("用户名或密码错误！\n");
-		sprintf_s(username, "\0");
-		return 0;
-	}
-	printf_s("id: %d username: %s 登录成功！\n", user_id, username);
+MYSQL* mysql = new MYSQL; //mysql连接  
+MYSQL_FIELD* fd;    //字段列数组  
+char field[32][32];    //存字段名二维数组  
+MYSQL_RES* res; //这个结构代表返回行的一个查询结果集  
+MYSQL_ROW column; //一个行数据的类型安全(type-safe)的表示，表示数据行的列  
+char query[150]; //查询语句  
+char username[20];	//当前用户名
+int user_id;	//当前用户id
+char friend_list[1024][1024];
 
+bool ConnectDatabase();
+bool QueryDatabase1();
+bool user_login(char username[], char password[]);
+int user_register(char username[], char password[], char email[]);
+int add_friend(char friend_name[]);
+int get_all_friend();
 
-	//printf_s("输入邮箱：");
-	//scanf_s("%s", email, 255);
-	//if (user_register(username, password, email) == 0)	//注册
-	//{
-	//	printf_s("用户名已存在！\n");
-	//}
-	//else
-	//{
-	//	printf_s("%s 注册成功！\n", username);
-	//}
-
-	//char friend_name[20];
-	//printf_s("输入好友用户名：");
-	//scanf_s("%s", friend_name, 20);
-	//if (add_friend(friend_name) == 0)	//登录
-	//{
-	//	printf_s("该用户名不存在！\n");
-	//}
-	//else
-	//{
-	//	printf_s("添加好友 %s 成功！\n",friend_name);
-	//}
-
-	int total_friend = get_all_friend();
-	printf_s("好友列表：\n");
-	for (int i = 0;i < total_friend;i++)
-	{
-		printf_s("%s", friend_list[i]);
-	}
-
-	//system("pause");
-	mysql_close(mysql);
-	return 0;
-}
+//int main1()
+//{
+//	ConnectDatabase();
+//	char password[20],email[255];
+//	printf_s("输入用户名：");
+//	scanf_s("%s", username,20);
+//	printf_s("输入密码：");
+//	scanf_s("%s", password,20);
+//	if (!user_login(username, password))	//登录
+//	{
+//		printf_s("用户名或密码错误！\n");
+//		sprintf_s(username, "\0");
+//		return 0;
+//	}
+//	printf_s("id: %d username: %s 登录成功！\n", user_id, username);
+//
+//
+//	//printf_s("输入邮箱：");
+//	//scanf_s("%s", email, 255);
+//	//if (user_register(username, password, email) == 0)	//注册
+//	//{
+//	//	printf_s("用户名已存在！\n");
+//	//}
+//	//else
+//	//{
+//	//	printf_s("%s 注册成功！\n", username);
+//	//}
+//
+//	//char friend_name[20];
+//	//printf_s("输入好友用户名：");
+//	//scanf_s("%s", friend_name, 20);
+//	//if (add_friend(friend_name) == 0)	//登录
+//	//{
+//	//	printf_s("该用户名不存在！\n");
+//	//}
+//	//else
+//	//{
+//	//	printf_s("添加好友 %s 成功！\n",friend_name);
+//	//}
+//
+//	int total_friend = get_all_friend();
+//	printf_s("好友列表：\n");
+//	for (int i = 0;i < total_friend;i++)
+//	{
+//		printf_s("%s", friend_list[i]);
+//	}
+//
+//	//system("pause");
+//	mysql_close(mysql);
+//	return 0;
+//}
 
 bool ConnectDatabase()
 {
 	//初始化mysql  
 	mysql_init(mysql);
 	//返回false则连接失败，返回true则连接成功  
-	//if (!(mysql_real_connect(mysql, "localhost", "root", "123456", "smtp_sys", 3306, NULL, 0))) //中间分别是主机，用户名，密码，数据库名，端口号（可以写默认0或者3306等），可以先写成参数再传进去  
-	if (!(mysql_real_connect(mysql, "cn-zj-dx.sakurafrp.com", "root", "CWJ2933/.", "smtp_sys", 35543, NULL, 0))) //中间分别是主机，用户名，密码，数据库名，端口号（可以写默认0或者3306等），可以先写成参数再传进去  
+	if (!(mysql_real_connect(mysql, "localhost", "root", "123456", "smtp_sys", 3306, NULL, 0))) //中间分别是主机，用户名，密码，数据库名，端口号（可以写默认0或者3306等），可以先写成参数再传进去  
+	//if (!(mysql_real_connect(mysql, "cn-zj-dx.sakurafrp.com", "root", "CWJ2933/.", "smtp_sys", 35543, NULL, 0))) //中间分别是主机，用户名，密码，数据库名，端口号（可以写默认0或者3306等），可以先写成参数再传进去  
 	{
 		printf("Error connecting to database:%s\n", mysql_error(mysql));
 		return false;

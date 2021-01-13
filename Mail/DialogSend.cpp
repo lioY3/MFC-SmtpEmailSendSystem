@@ -5,6 +5,7 @@
 #include "Mail.h"
 #include "DialogSend.h"
 #include "afxdialogex.h"
+#include "Smtp.h"
 
 
 // DialogSend 对话框
@@ -14,7 +15,19 @@ IMPLEMENT_DYNAMIC(DialogSend, CDialogEx)
 DialogSend::DialogSend(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_DIALOGSend, pParent)
 {
-
+	m_Name = _T("");
+	m_Addr = _T("");
+	m_Server = _T("");
+	m_Port = _T(25);
+	m_User = _T("");
+	m_Pass = _T("");
+	m_Receiver = _T("");
+	m_Title = _T("");
+	m_CC = _T("");
+	m_BCC = _T("");
+	m_Attach = _T("");
+	m_Letter = _T("");
+	m_Info = _T("");
 }
 
 DialogSend::~DialogSend()
@@ -24,6 +37,16 @@ DialogSend::~DialogSend()
 void DialogSend::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Text(pDX, IDC_EDIT_ADDR, m_Addr);
+	DDX_Text(pDX, IDC_EDIT_PASS, m_Pass);
+	DDX_Text(pDX, IDC_EDIT_SERVER, m_Server);
+	DDX_Text(pDX, IDC_EDIT_PORT, m_Port);
+	DDX_Text(pDX, IDC_EDIT_RECEIVER, m_Receiver);
+	DDX_Text(pDX, IDC_EDIT_CC, m_CC);
+	DDX_Text(pDX, IDC_EDIT_BCC, m_BCC);
+	DDX_Text(pDX, IDC_EDIT_TITLE, m_Title);
+	DDX_Text(pDX, IDC_EDIT_ATTACH, m_Attach);
+	DDX_Text(pDX, IDC_EDIT_LETTER, m_Letter);
 }
 
 
@@ -31,6 +54,7 @@ BEGIN_MESSAGE_MAP(DialogSend, CDialogEx)
 	ON_BN_CLICKED(IDOK, &DialogSend::OnBnClickedOk)
 	ON_BN_CLICKED(IDAGAIN, &DialogSend::OnBnClickedAgain)
 	ON_BN_CLICKED(IDC_BTN_VIEW, &DialogSend::OnBnClickedBtnView)
+	ON_EN_CHANGE(IDC_EDIT_NAME, &DialogSend::OnEnChangeEditName)
 END_MESSAGE_MAP()
 
 
@@ -40,7 +64,36 @@ END_MESSAGE_MAP()
 void DialogSend::OnBnClickedOk()
 {
 	// TODO: 响应点击发送按钮的事件
-	MessageBox(TEXT("发送"));
+	UpdateData(true);
+	
+	int port = (int)m_Port;
+	CSmtp smtp(
+		port,
+		m_Server.GetBuffer(0),
+		m_Addr.GetBuffer(0),
+		m_Pass.GetBuffer(0),
+		m_Receiver.GetBuffer(0),
+		m_Title.GetBuffer(0),
+		m_Letter.GetBuffer(0)
+	);
+	MessageBox(TEXT(m_Server.GetBuffer(0)));
+
+	int err;
+	if ((err = smtp.SendEmail_Ex()) != 0)
+	{
+		if (err == 1)
+			MessageBox(TEXT("错误1: 由于网络不畅通，发送失败!"));
+		if (err == 2)
+			MessageBox(TEXT("错误2: 用户名错误,请核对!"));
+		if (err == 3)
+			MessageBox(TEXT("错误3: 用户密码错误，请核对!"));
+		if (err == 4)
+			MessageBox(TEXT("错误4: 请检查附件目录是否正确，以及文件是否存在!"));
+	}
+	else
+	{
+		MessageBox(TEXT("发送成功！"));
+	}
 }
 
 
@@ -57,4 +110,15 @@ void DialogSend::OnBnClickedAgain()
 void DialogSend::OnBnClickedBtnView()
 {
 	// TODO:响应附件按钮
+}
+
+
+void DialogSend::OnEnChangeEditName()
+{
+	// TODO:  如果该控件是 RICHEDIT 控件，它将不
+	// 发送此通知，除非重写 CDialogEx::OnInitDialog()
+	// 函数并调用 CRichEditCtrl().SetEventMask()，
+	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
+
+	// TODO:  在此添加控件通知处理程序代码
 }

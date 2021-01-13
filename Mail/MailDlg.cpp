@@ -2,12 +2,15 @@
 // MailDlg.cpp: 实现文件
 //
 
+
 #include "pch.h"
+#include <mysql.h>
 #include "framework.h"
 #include "Mail.h"
 #include "MailDlg.h"
 #include "afxdialogex.h"
 #include "DialogSend.h "
+#include "MySQLConnector.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -68,6 +71,7 @@ BEGIN_MESSAGE_MAP(CMailDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_EN_CHANGE(IDC_EDIT_RECEIVER, &CMailDlg::OnEnChangeEditReceiver)
 	ON_BN_CLICKED(IDOK, &CMailDlg::OnBnClickedOk)
+	ON_EN_CHANGE(IDC_EDIT_USER, &CMailDlg::OnEnChangeEditUser)
 END_MESSAGE_MAP()
 
 
@@ -173,8 +177,43 @@ void CMailDlg::OnEnChangeEditReceiver()
 void CMailDlg::OnBnClickedOk()
 {
 	// TODO: 登录按钮的点击事件
-	this->ShowWindow(SW_HIDE);
-	DialogSend dlg;//你添加的对话框的头文件要加到原对话框的.cpp文件中 否则编译不通过
-	dlg.DoModal();
-	this->ShowWindow(SW_SHOW);
+	UpdateData(true);
+	ConnectDatabase();
+	CString uname;
+	CString pwd;
+
+	char password[20];
+	GetDlgItem(IDC_EDIT_USER)->GetWindowText(uname);
+	GetDlgItem(IDC_EDIT_PASS)->GetWindowText(pwd);
+	memcpy(username, LPCTSTR(uname), uname.GetLength() * sizeof(TCHAR));
+	memcpy(password, LPCTSTR(pwd), pwd.GetLength() * sizeof(TCHAR));
+
+	username[uname.GetLength()] = 0;
+	password[pwd.GetLength()] = 0;
+
+	if (!user_login(username, password))	//登录
+	{
+		MessageBox(TEXT("用户名或密码错误！"));
+		sprintf_s(username, "\0");
+	}
+	else
+	{
+		MessageBox(TEXT("登录成功！"));
+		this->ShowWindow(SW_HIDE);
+		DialogSend dlg;//你添加的对话框的头文件要加到原对话框的.cpp文件中 否则编译不通过
+		dlg.DoModal();
+		this->ShowWindow(SW_SHOW);
+	}
+	
+}
+
+
+void CMailDlg::OnEnChangeEditUser()
+{
+	// TODO:  如果该控件是 RICHEDIT 控件，它将不
+	// 发送此通知，除非重写 CDialogEx::OnInitDialog()
+	// 函数并调用 CRichEditCtrl().SetEventMask()，
+	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
+
+	// TODO:  在此添加控件通知处理程序代码
 }

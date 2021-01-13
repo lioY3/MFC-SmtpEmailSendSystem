@@ -38,4 +38,5 @@ public:
 	afx_msg void OnBnClickedAgain();
 	afx_msg void OnBnClickedBtnView();
 
+	afx_msg void OnEnChangeEditName();
 };
