@@ -13,7 +13,9 @@ MYSQL_ROW column; //一个行数据的类型安全(type-safe)的表示，表示数据行的列
 char query[150]; //查询语句  
 char username[20];	//当前用户名
 int user_id;	//当前用户id
-char friend_list[1024][1024];
+char email[30];	//当前用户的邮箱
+char friend_list[1024][3][30];
+int total_friend = 0;
 
 bool ConnectDatabase();
 bool QueryDatabase1();
@@ -158,6 +160,7 @@ bool user_login(char username[], char password[])
 	{
 		column = mysql_fetch_row(res);
 		user_id = atoi(column[0]);
+		sprintf_s(email, "%s\0", column[3]);
 		return true;	//登录成功
 	}
 }
@@ -244,7 +247,9 @@ int get_all_friend()
 	int i = 0;
 	while (column = mysql_fetch_row(res))   //在已知字段数量情况下，获取每一行好友信息
 	{
-		sprintf_s(friend_list[i], "%s(%s)\n\0",column[1],column[2]);  //column是列数组  
+		sprintf_s(friend_list[i][0], "%s\0", column[0]);  //column是列数组  
+		sprintf_s(friend_list[i][1], "%s\0", column[1]);  //column是列数组  
+		sprintf_s(friend_list[i][2], "%s\0", column[2]);  //column是列数组  
 		i++;
 	}
 	return i;

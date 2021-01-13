@@ -18,8 +18,10 @@ extern MYSQL_ROW column; //一个行数据的类型安全(type-safe)的表示，表示数据行的列
 extern char query[150]; //查询语句  
 extern char username[20];	//当前用户名
 extern int user_id;	//当前用户id
-extern char friend_list[1024][1024];
+extern char friend_list[1024][3][30];
 extern char username[20];	//当前用户名
+extern char email[30];	//当前用户的邮箱
+extern int total_friend;
 
 extern bool ConnectDatabase();
 extern bool QueryDatabase1();

@@ -34,9 +34,11 @@ public:
 	CString m_Attach;
 	CString m_Letter;
 	CString m_Info;
+	CListBox m_Friend;
+
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnBnClickedAgain();
 	afx_msg void OnBnClickedBtnView();
-
 	afx_msg void OnEnChangeEditName();
+	
 };

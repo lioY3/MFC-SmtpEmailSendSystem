@@ -201,6 +201,7 @@ void CMailDlg::OnBnClickedOk()
 	else
 	{
 		MessageBox(TEXT("登录成功！"));
+		total_friend = get_all_friend();
 		this->ShowWindow(SW_HIDE);
 		DialogSend dlg;
 		dlg.DoModal();

@@ -224,9 +224,7 @@ bool CSmtp::SendEmailHead()		//发送邮件头部信息
 
 	sendBuff.empty();
 
-	sendBuff = "RCPT TO: <z873278492@163.com>\r\n";
-	sendBuff += "RCPT TO: <974098492@qq.com>\r\n";
-	sendBuff += "RCPT TO: <" + targetAddr + ">\r\n";
+	sendBuff = "RCPT TO: <" + targetAddr + ">\r\n";
 	
 	if (false == Send(sendBuff) || false == Recv())
 	{
