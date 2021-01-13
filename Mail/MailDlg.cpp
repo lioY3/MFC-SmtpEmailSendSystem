@@ -151,6 +151,28 @@ void CMailDlg::OnPaint()
 	}
 	else
 	{
+		CRect rect;
+		CPaintDC dc(this);
+		GetClientRect(rect);
+		dc.FillSolidRect(rect, RGB(255, 255, 255)); //设置为白色背景
+		CDC dcImage, dcTrans;
+		//加载位图
+		CBitmap bitmap;
+		bitmap.LoadBitmap(IDB_BITMAP4); //IDB_BITMAP1是导入的位图ID
+
+		//取得位图的详细信息
+		BITMAP bm;
+		bitmap.GetBitmap(&bm);
+		int nWidth = bm.bmWidth-57;
+		int nHeight = bm.bmHeight;
+		//创建兼容DC
+		dcImage.CreateCompatibleDC(&dc);
+		CBitmap* pOldBitmapImage = dcImage.SelectObject(&bitmap);
+		//强制设置位图背景色为白色
+		dcImage.SetBkColor(RGB(255, 255, 255));
+		//位图背景色与操作
+		dc.BitBlt(rect.Width() - nWidth, 10, nWidth, nHeight, &dcImage, 0, 60, SRCAND);
+		dcImage.SelectObject(pOldBitmapImage);
 		CDialogEx::OnPaint();
 	}
 }
