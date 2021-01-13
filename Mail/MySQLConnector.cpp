@@ -79,8 +79,8 @@ bool ConnectDatabase()
 	//初始化mysql  
 	mysql_init(mysql);
 	//返回false则连接失败，返回true则连接成功  
-	if (!(mysql_real_connect(mysql, "localhost", "root", "123456", "smtp_sys", 3306, NULL, 0))) //中间分别是主机，用户名，密码，数据库名，端口号（可以写默认0或者3306等），可以先写成参数再传进去  
-	//if (!(mysql_real_connect(mysql, "cn-zj-dx.sakurafrp.com", "root", "CWJ2933/.", "smtp_sys", 35543, NULL, 0))) //中间分别是主机，用户名，密码，数据库名，端口号（可以写默认0或者3306等），可以先写成参数再传进去  
+	//if (!(mysql_real_connect(mysql, "localhost", "root", "123456", "smtp_sys", 3306, NULL, 0))) //中间分别是主机，用户名，密码，数据库名，端口号（可以写默认0或者3306等），可以先写成参数再传进去  
+	if (!(mysql_real_connect(mysql, "cn-zj-dx.sakurafrp.com", "root", "CWJ2933/.", "smtp_sys", 35543, NULL, 0))) //中间分别是主机，用户名，密码，数据库名，端口号（可以写默认0或者3306等），可以先写成参数再传进去  
 	{
 		printf("Error connecting to database:%s\n", mysql_error(mysql));
 		return false;

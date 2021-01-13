@@ -45,6 +45,9 @@
     <ClInclude Include="Smtp.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="RegisterDLG.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Mail.cpp">
@@ -68,6 +71,9 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="RegisterDLG.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Mail.rc">
@@ -87,6 +93,15 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="res\key.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\account.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\key.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\name.ico">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

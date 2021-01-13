@@ -11,6 +11,7 @@
 #include "afxdialogex.h"
 #include "DialogSend.h "
 #include "MySQLConnector.h"
+#include "RegisterDLG.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -72,6 +73,7 @@ BEGIN_MESSAGE_MAP(CMailDlg, CDialogEx)
 	ON_EN_CHANGE(IDC_EDIT_RECEIVER, &CMailDlg::OnEnChangeEditReceiver)
 	ON_BN_CLICKED(IDOK, &CMailDlg::OnBnClickedOk)
 	ON_EN_CHANGE(IDC_EDIT_USER, &CMailDlg::OnEnChangeEditUser)
+	ON_BN_CLICKED(IDC_TOREGISTER, &CMailDlg::OnBnClickedToregister)
 END_MESSAGE_MAP()
 
 
@@ -200,7 +202,7 @@ void CMailDlg::OnBnClickedOk()
 	{
 		MessageBox(TEXT("登录成功！"));
 		this->ShowWindow(SW_HIDE);
-		DialogSend dlg;//你添加的对话框的头文件要加到原对话框的.cpp文件中 否则编译不通过
+		DialogSend dlg;
 		dlg.DoModal();
 		this->ShowWindow(SW_SHOW);
 	}
@@ -216,4 +218,14 @@ void CMailDlg::OnEnChangeEditUser()
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
 	// TODO:  在此添加控件通知处理程序代码
+}
+
+
+void CMailDlg::OnBnClickedToregister()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	this->ShowWindow(SW_HIDE);
+	RegisterDLG dlg;
+	dlg.DoModal();
+	this->ShowWindow(SW_SHOW);
 }

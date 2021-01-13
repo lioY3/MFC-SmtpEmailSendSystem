@@ -14,6 +14,12 @@
 #define IDD_DIALOGSend                  130
 #define IDB_BITMAP1                     132
 #define IDB_BITMAP2                     133
+#define IDD_DIALOGRIGI                  134
+#define IDB_BITMAP3                     137
+#define IDI_ICONACCOUNT                 140
+#define IDI_ICON1                       142
+#define IDI_ICONKEY                     142
+#define IDI_ICONNAME                    143
 #define IDC_BUTTON1                     1000
 #define IDC_LIST1                       1000
 #define IDC_BUTTON2                     1001
@@ -21,18 +27,24 @@
 #define IDC_COMB_LIST                   1002
 #define IDAGAIN                         1002
 #define IDC_RICH_INFO                   1003
+#define IDC_EDIT1                       1003
 #define IDC_EDIT_SERVER                 1004
 #define IDC_EDIT_USER                   1005
 #define IDC_EDIT_PASS                   1006
+#define IDC_EDIT2                       1006
 #define IDC_CHECK_DEL                   1007
+#define IDC_EDIT_PASS2                  1007
 #define IDC_BTN_CONN                    1008
+#define IDC_EDIT_PASS3                  1008
 #define IDC_BTN_DISC                    1009
 #define IDCANCAL                        1010
 #define IDC_BTN_VIEW                    1011
 #define IDC_BTN_SAVE                    1012
+#define IDC_TOREGISTER                  1012
 #define IDC_EDIT_NAME                   1013
 #define IDC_EDIT_ADDR                   1014
 #define IDC_EDIT_PORT                   1016
+#define IDC_SYSLINK2                    1016
 #define IDC_EDIT_RECEIVER               1019
 #define IDC_EDIT_TITLE                  1020
 #define IDC_EDIT_CC                     1021
@@ -47,9 +59,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        134
+#define _APS_NEXT_RESOURCE_VALUE        135
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1003
+#define _APS_NEXT_CONTROL_VALUE         1008
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
