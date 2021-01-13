@@ -71,6 +71,9 @@
     <ClCompile Include="Smtp.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
     <ClCompile Include="RegisterDLG.cpp">
       <Filter>源文件</Filter>
     </ClCompile>

@@ -129,20 +129,7 @@ void DialogSend::OnBnClickedAgain()
 void DialogSend::OnBnClickedBtnView()
 {
 	// TODO:响应附件按钮
-	UpdateData(TRUE);
-	CFileDialog dlg(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, _T("All Files (*.*)|*.*||"));
-	if (dlg.DoModal() == IDOK)
-	{
-		CString sNewFile = dlg.GetPathName();
-		if (m_Attach.GetLength())
-		{
-			m_Attach += _T(", ");
-			m_Attach += sNewFile;
-		}
-		else
-			m_Attach = sNewFile;
-		UpdateData(FALSE);
-	}
+
 }
 
 
