@@ -15,20 +15,14 @@ IMPLEMENT_DYNAMIC(DialogSend, CDialogEx)
 
 DialogSend::DialogSend(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_DIALOGSend, pParent)
+	,m_Name(_T("")), m_Addr(_T(email))
+	,m_Server(_T("")), m_Port(_T(25))
+	,m_User(_T("")),m_Pass(_T(pass))
+	,m_Receiver(_T("")),m_Title(_T(""))
+	,m_CC(_T("")),m_BCC(_T(""))
+	,m_Attach(_T("")),m_Letter(_T("")),m_Info(_T(""))
 {
-	m_Name = _T("");
-	m_Addr = _T(email);
-	m_Server = _T("");
-	m_Port = _T(25);
-	m_User = _T("");
-	m_Pass = _T("");
-	m_Receiver = _T("");
-	m_Title = _T("");
-	m_CC = _T("");
-	m_BCC = _T("");
-	m_Attach = _T("");
-	m_Letter = _T("");
-	m_Info = _T("");
+
 	
 }
 
@@ -51,10 +45,10 @@ void DialogSend::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_ATTACH, m_Attach);
 	DDX_Text(pDX, IDC_EDIT_LETTER, m_Letter);
 	DDX_Control(pDX, IDC_LIST1, m_Friend);
+	m_Friend.ResetContent();
 	char friend_info[50];
-	//sprintf_s(friend_info, " %-8s %-20s", "用户名", "好友邮箱");
-	//m_Friend.AddString(friend_info);
-	for (int i = 0;i < total_friend;i++)
+	total_friend = get_all_friend();
+	for (int i = 0;i < total_friend ;i++)
 	{
 		sprintf_s(friend_info, " %-8s %-10s", friend_list[i][1], friend_list[i][2]);
 		m_Friend.AddString(friend_info);
@@ -70,6 +64,8 @@ BEGIN_MESSAGE_MAP(DialogSend, CDialogEx)
 	ON_BN_CLICKED(IDC_MFCBUTTONADD, &DialogSend::OnBnClickedMfcbuttonadd)
 	ON_BN_CLICKED(IDC_MFCBUTTONDECREASE, &DialogSend::OnBnClickedMfcbuttondecrease)
 	ON_BN_CLICKED(IDC_BTN_DELET, &DialogSend::OnBnClickedBtnDelet)
+	ON_LBN_SELCHANGE(IDC_LIST1, &DialogSend::OnLbnSelchangeList1)
+	ON_WM_RBUTTONDOWN()
 END_MESSAGE_MAP()
 
 
@@ -80,7 +76,7 @@ void DialogSend::OnBnClickedOk()
 {
 	// TODO: 响应点击发送按钮的事件
 	UpdateData(true);
-	
+	strcpy_s(pass, m_Pass.GetBuffer(0));
 	int port = (int)m_Port;
 	CSmtp smtp(
 		port,
@@ -104,7 +100,7 @@ void DialogSend::OnBnClickedOk()
 	if ((err = smtp.SendEmail_Ex()) != 0)
 	{
 		if (err == 1)
-			MessageBox(TEXT("错误1: 由于网络不畅通，发送失败!"));
+			MessageBox(TEXT("错误1: 由于网络问题或服务器填写错误，发送失败!"));
 		if (err == 2)
 			MessageBox(TEXT("错误2: 用户名错误,请核对!"));
 		if (err == 3)
@@ -179,4 +175,21 @@ void DialogSend::OnBnClickedMfcbuttondecrease()
 void DialogSend::OnBnClickedBtnDelet()
 {
 	// TODO: 响应删除附件按钮
+}
+
+
+void DialogSend::OnLbnSelchangeList1()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	int nIndex = m_Friend.GetCurSel();
+	m_Receiver = friend_list[nIndex][2];
+	SetDlgItemText(IDC_EDIT_RECEIVER, m_Receiver);
+}
+
+
+void DialogSend::OnRButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+
+	CDialogEx::OnRButtonDown(nFlags, point);
 }
