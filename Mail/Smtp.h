@@ -20,7 +20,7 @@ struct FILEINFO /*用来记录文件的一些信息*/
 class CSmtp
 {
 public:
-	CSmtp(void);
+	//CSmtp(void);
 	CSmtp(
 		int port,
 		string srvDomain,	//smtp服务器域名
@@ -33,7 +33,7 @@ public:
 		string content       //内容
 	);
 public:
-	~CSmtp(void);
+	~CSmtp();
 public:
 	int port;
 public:

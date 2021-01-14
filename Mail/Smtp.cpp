@@ -20,7 +20,7 @@ char* CSmtp::base64Encode(char const* origSigned, unsigned origLength)
 	unsigned const numResultBytes = 4 * (numOrig24BitValues + havePadding);
 	char* result = new char[numResultBytes + 3]; // allow for trailing '/0'
 
-												 // Map each full group of 3 input bytes into 4 output base-64 characters:
+	// Map each full group of 3 input bytes into 4 output base-64 characters:
 	unsigned i;
 	for (i = 0; i < numOrig24BitValues; ++i)
 	{
@@ -50,26 +50,26 @@ char* CSmtp::base64Encode(char const* origSigned, unsigned origLength)
 	result[numResultBytes] = '\0';
 	return result;
 }
-CSmtp::CSmtp(void)
-{
-	this->content = "";
-	this->port = 25;
-	this->user = "";
-	this->pass = "";
-	this->targetAddr = "";
-	this->title = "";
-	this->domain = "";
-
-	WORD wVersionRequested;
-	WSADATA wsaData;
-	int err;
-	wVersionRequested = MAKEWORD(2, 2);
-	err = WSAStartup(wVersionRequested, &wsaData);
-	this->sockClient = 0;
-
-}
-
-CSmtp::~CSmtp(void)
+//CSmtp::CSmtp(void)
+//{
+//	this->content = "";
+//	this->port = 25;
+//	this->user = "";
+//	this->pass = "";
+//	this->targetAddr = "";
+//	this->title = "";
+//	this->domain = "";
+//
+//	WORD wVersionRequested;
+//	WSADATA wsaData;
+//	int err;
+//	wVersionRequested = MAKEWORD(2, 2);
+//	err = WSAStartup(wVersionRequested, &wsaData);
+//	this->sockClient = 0;
+//
+//}
+//
+CSmtp::~CSmtp()
 {
 	DeleteAllAttachment();
 	closesocket(sockClient);
