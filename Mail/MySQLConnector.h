@@ -21,6 +21,7 @@ extern int user_id;	//当前用户id
 extern char friend_list[1024][3][30];
 extern char username[20];	//当前用户名
 extern char email[30];	//当前用户的邮箱
+extern char pass[30];	//当前用户授权码
 extern int total_friend;
 
 extern bool ConnectDatabase();

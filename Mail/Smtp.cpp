@@ -114,7 +114,10 @@ bool CSmtp::CreateConn()
 	SOCKADDR_IN addrSrv;
 	HOSTENT* pHostent;
 	pHostent = gethostbyname(domain.c_str());  //得到有关于域名的信息
-
+	if (pHostent == NULL)
+	{
+		return false;
+	}
 	addrSrv.sin_addr.S_un.S_addr = *((DWORD*)pHostent->h_addr_list[0]);	//得到smtp服务器的网络字节序的ip地址   
 	addrSrv.sin_family = AF_INET;
 	addrSrv.sin_port = htons(port);

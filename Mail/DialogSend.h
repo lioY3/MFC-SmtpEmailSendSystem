@@ -43,4 +43,6 @@ public:
 	afx_msg void OnBnClickedMfcbuttonadd();
 	afx_msg void OnBnClickedMfcbuttondecrease();
 	afx_msg void OnBnClickedBtnDelet();
+	afx_msg void OnLbnSelchangeList1();
+	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 };

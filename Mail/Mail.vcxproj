@@ -233,6 +233,7 @@
     <Image Include="res\icon2.ico" />
     <Image Include="res\key.bmp" />
     <Image Include="res\key.ico" />
+    <Image Include="res\loginUp.bmp" />
     <Image Include="res\mail.bmp" />
     <Image Include="res\Mail.ico" />
     <Image Include="res\name.ico" />
