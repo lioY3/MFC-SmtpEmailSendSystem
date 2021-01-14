@@ -3,7 +3,6 @@
 #include <iostream>
 #include <fstream>
 using namespace std;
-#pragma warning(disable:4996)
 
 
 #pragma  comment(lib, "ws2_32.lib")	/*链接ws2_32.lib动态链接库*/
@@ -302,8 +301,8 @@ int CSmtp::SendAttachment_Ex() /*发送附件*/
 {
 	for (list<FILEINFO*>::iterator pIter = listFile.begin(); pIter != listFile.end(); pIter++)
 	{
-		cout << "Attachment is sending ~~~~~" << endl;
-		cout << "Please be patient!" << endl;
+		//cout << "Attachment is sending ~~~~~" << endl;
+		//cout << "Please be patient!" << endl;
 		string sendBuff;
 		sendBuff = "--qwertyuiop\r\n";
 		sendBuff += "Content-Type: application/octet-stream;\r\n";
