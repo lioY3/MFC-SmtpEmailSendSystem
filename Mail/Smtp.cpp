@@ -8,7 +8,7 @@ using namespace std;
 #pragma  comment(lib, "ws2_32.lib")	/*链接ws2_32.lib动态链接库*/
 
 // 将字符串转换为base64编码
-char* CSmtp::base64Encode(char const* origSigned, unsigned origLength)
+char* CSmtp::Base64Encode(char const* origSigned, unsigned origLength)
 {
 	unsigned char const* orig = (unsigned char const*)origSigned; // in case any input bytes have the MSB set
 	if (orig == NULL) return NULL;
@@ -120,7 +120,7 @@ bool CSmtp::CreateConn()
 	addrSrv.sin_addr.S_un.S_addr = *((DWORD*)pHostent->h_addr_list[0]);	//得到smtp服务器的网络字节序的ip地址   
 	addrSrv.sin_family = AF_INET;
 	addrSrv.sin_port = htons(port);
-	int err = connect(sockClient, (SOCKADDR*)& addrSrv, sizeof(SOCKADDR));   //向服务器发送请求 
+	int err = connect(sockClient, (SOCKADDR*)&addrSrv, sizeof(SOCKADDR));   //向服务器发送请求 
 	if (err != 0)
 	{
 		return false;
@@ -134,7 +134,7 @@ bool CSmtp::CreateConn()
 	return true;
 }
 
-bool CSmtp::Send(string & message)
+bool CSmtp::Send(string& message)
 {
 	int err = send(sockClient, message.c_str(), message.length(), 0);
 	if (err == SOCKET_ERROR)
@@ -184,7 +184,7 @@ int CSmtp::Login()
 	char* ecode;
 	/*在这里顺带扯一句，关于string类的length函数与C语言中的strlen函数的区别,strlen计算出来的长度，只到'\0'字符为止,而string::length()函数实际上返回的是string类中字符数组的大小,你自己可以测试一下，这也是为什么我下面不使用string::length()的原因*/
 
-	ecode = base64Encode(sendBuff.c_str(), strlen(sendBuff.c_str()));
+	ecode = Base64Encode(sendBuff.c_str(), strlen(sendBuff.c_str()));
 	sendBuff.empty();
 	sendBuff = ecode;
 	sendBuff += "\r\n";
@@ -196,7 +196,7 @@ int CSmtp::Login()
 	}
 
 	sendBuff.empty();
-	ecode = base64Encode(pass.c_str(), strlen(pass.c_str()));
+	ecode = Base64Encode(pass.c_str(), strlen(pass.c_str()));
 	sendBuff = ecode;
 	sendBuff += "\r\n";
 	delete[]ecode;
@@ -233,7 +233,7 @@ bool CSmtp::SendEmailHead()		//发送邮件头部信息
 	sendBuff = "RCPT TO: <" + targetAddr + ">\r\n";
 	sendBuff += "RCPT TO: <" + cc + ">\r\n";
 	sendBuff += "RCPT TO: <" + bcc + ">\r\n";
-	
+
 	if (false == Send(sendBuff) || false == Recv())
 	{
 		return false; /*表示发送失败由于网络错误*/
@@ -256,7 +256,7 @@ bool CSmtp::SendEmailHead()		//发送邮件头部信息
 	return true;
 }
 
-void CSmtp::FormatEmailHead(string & email)
+void CSmtp::FormatEmailHead(string& email)
 {/*格式化要发送的内容*/
 	email = "From: ";
 	email += user;
@@ -332,14 +332,14 @@ int CSmtp::SendAttachment_Ex() /*发送附件*/
 		while (ifs.read(fileBuff, MAX_FILE_LEN))
 		{
 			//cout << ifs.gcount() << endl;
-			chSendBuff = base64Encode(fileBuff, MAX_FILE_LEN);
+			chSendBuff = Base64Encode(fileBuff, MAX_FILE_LEN);
 			chSendBuff[strlen(chSendBuff)] = '\r';
 			chSendBuff[strlen(chSendBuff)] = '\n';
 			send(sockClient, chSendBuff, strlen(chSendBuff), 0);
 			delete[]chSendBuff;
 		}
 		//cout << ifs.gcount() << endl;
-		chSendBuff = base64Encode(fileBuff, ifs.gcount());
+		chSendBuff = Base64Encode(fileBuff, ifs.gcount());
 		chSendBuff[strlen(chSendBuff)] = '\r';
 		chSendBuff[strlen(chSendBuff)] = '\n';
 		int err = send(sockClient, chSendBuff, strlen(chSendBuff), 0);
@@ -401,7 +401,7 @@ int CSmtp::SendEmail_Ex()
 	return 0; /*0表示没有出错*/
 }
 
-void CSmtp::AddAttachment(string & filePath) //添加附件
+void CSmtp::AddAttachment(string& filePath) //添加附件
 {
 	FILEINFO* pFile = new FILEINFO;
 	strcpy_s(pFile->filePath, filePath.c_str());
@@ -410,7 +410,7 @@ void CSmtp::AddAttachment(string & filePath) //添加附件
 	listFile.push_back(pFile);
 }
 
-void CSmtp::DeleteAttachment(string & filePath) //删除附件
+void CSmtp::DeleteAttachment(string& filePath) //删除附件
 {
 	list<FILEINFO*>::iterator pIter;
 	for (pIter = listFile.begin(); pIter != listFile.end(); pIter++)
@@ -435,37 +435,37 @@ void CSmtp::DeleteAllAttachment() /*删除所有的文件*/
 	}
 }
 
-void CSmtp::SetSrvDomain(string & domain)
+void CSmtp::SetSrvDomain(string& domain)
 {
 	this->domain = domain;
 }
 
-void CSmtp::SetUserName(string & user)
+void CSmtp::SetUserName(string& user)
 {
 	this->user = user;
 }
 
-void CSmtp::SetPass(string & pass)
+void CSmtp::SetPass(string& pass)
 {
 	this->pass = pass;
 }
-void CSmtp::SetTargetEmail(string & targetAddr)
+void CSmtp::SetTargetEmail(string& targetAddr)
 {
 	this->targetAddr = targetAddr;
 }
-void CSmtp::SetCC(string & cc)
+void CSmtp::SetCC(string& cc)
 {
 	this->cc = cc;
 }
-void CSmtp::SetBCC(string & bcc)
+void CSmtp::SetBCC(string& bcc)
 {
 	this->bcc = bcc;
 }
-void CSmtp::SetEmailTitle(string & title)
+void CSmtp::SetEmailTitle(string& title)
 {
 	this->title = title;
 }
-void CSmtp::SetContent(string & content)
+void CSmtp::SetContent(string& content)
 {
 	this->content = content;
 }

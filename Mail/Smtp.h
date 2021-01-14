@@ -79,9 +79,8 @@ public:
 	void SetEmailTitle(string& title);
 	void SetContent(string& content);
 	void SetPort(int port);
-	int SendEmail_Ex();
-	// 错误码:1.网络错误导致的错误2.用户名错误3.密码错误4.文件不存在0.成功
-	char* base64Encode(char const* origSigned, unsigned origLength);
+	int SendEmail_Ex();// 错误码:1.网络错误导致的错误2.用户名错误3.密码错误4.文件不存在0.成功
+	char* Base64Encode(char const* origSigned, unsigned origLength);
 };
 
 #endif // !__SMTP_H__

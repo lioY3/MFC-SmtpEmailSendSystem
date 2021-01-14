@@ -15,15 +15,15 @@ IMPLEMENT_DYNAMIC(DialogSend, CDialogEx)
 
 DialogSend::DialogSend(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_DIALOGSend, pParent)
-	,m_Name(_T("")), m_Addr(_T(email))
-	,m_Server(_T("")), m_Port(_T(25))
-	,m_User(_T("")),m_Pass(_T(pass))
-	,m_Receiver(_T("")),m_Title(_T(""))
-	,m_CC(_T("")),m_BCC(_T(""))
-	,m_Attach(_T("")),m_Letter(_T("")),m_Info(_T(""))
+	, m_Name(_T("")), m_Addr(_T(email))
+	, m_Server(_T("")), m_Port(_T(25))
+	, m_User(_T("")), m_Pass(_T(pass))
+	, m_Receiver(_T("")), m_Title(_T(""))
+	, m_CC(_T("")), m_BCC(_T(""))
+	, m_Attach(_T("")), m_Letter(_T("")), m_Info(_T(""))
 {
 
-	
+
 }
 
 DialogSend::~DialogSend()
@@ -48,7 +48,7 @@ void DialogSend::DoDataExchange(CDataExchange* pDX)
 	m_Friend.ResetContent();
 	char friend_info[50];
 	total_friend = get_all_friend();
-	for (int i = 0;i < total_friend ;i++)
+	for (int i = 0; i < total_friend; i++)
 	{
 		sprintf_s(friend_info, " %-8s %-10s", friend_list[i][1], friend_list[i][2]);
 		m_Friend.AddString(friend_info);
@@ -175,6 +175,9 @@ void DialogSend::OnBnClickedMfcbuttondecrease()
 void DialogSend::OnBnClickedBtnDelet()
 {
 	// TODO: 响应删除附件按钮
+	m_Attach = _T("");
+	SetDlgItemText(IDC_EDIT_ATTACH, m_Attach);
+	UpdateData(TRUE);
 }
 
 
