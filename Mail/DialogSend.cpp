@@ -28,7 +28,6 @@ DialogSend::DialogSend(CWnd* pParent /*=nullptr*/)
 
 DialogSend::~DialogSend()
 {
-	mysql_close(mysql);
 }
 
 void DialogSend::DoDataExchange(CDataExchange* pDX)
@@ -45,12 +44,13 @@ void DialogSend::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_ATTACH, m_Attach);
 	DDX_Text(pDX, IDC_EDIT_LETTER, m_Letter);
 	DDX_Control(pDX, IDC_LIST1, m_Friend);
+	/*更新数据时先清空好友列表，再重新添加*/
 	m_Friend.ResetContent();
 	char friend_info[50];
 	total_friend = get_all_friend();
 	for (int i = 0;i < total_friend ;i++)
 	{
-		sprintf_s(friend_info, " %-8s %-10s", friend_list[i][1], friend_list[i][2]);
+		sprintf_s(friend_info, " %-8s %-20s", friend_list[i][1], friend_list[i][2]);
 		m_Friend.AddString(friend_info);
 	}
 }
