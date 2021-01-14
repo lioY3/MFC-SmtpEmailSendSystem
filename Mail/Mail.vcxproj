@@ -202,7 +202,6 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="RegisterDLG.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="SkinH.h" />
     <ClInclude Include="Smtp.h" />
   </ItemGroup>
   <ItemGroup>
@@ -237,9 +236,6 @@
     <Image Include="res\mail.bmp" />
     <Image Include="res\Mail.ico" />
     <Image Include="res\name.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="SkinHu.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
