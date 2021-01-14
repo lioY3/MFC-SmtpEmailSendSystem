@@ -1,9 +1,13 @@
 #include "pch.h"
 #include "Smtp.h"
+#include <iostream>
 #include <fstream>
 using namespace std;
 
-// 转换为Base64编码
+
+#pragma  comment(lib, "ws2_32.lib")	/*链接ws2_32.lib动态链接库*/
+
+// 将字符串转换为base64编码
 char* CSmtp::Base64Encode(char const* origSigned, unsigned origLength)
 {
 	unsigned char const* orig = (unsigned char const*)origSigned; // in case any input bytes have the MSB set
@@ -53,6 +57,7 @@ CSmtp::~CSmtp()
 	WSACleanup();
 }
 
+
 CSmtp::CSmtp(
 	int port,
 	string srvDomain,
@@ -83,7 +88,6 @@ CSmtp::CSmtp(
 	this->sockClient = 0;
 }
 
-// 创建连接
 bool CSmtp::CreateConn()
 {
 	//为建立socket对象做准备，初始化环境
@@ -98,7 +102,7 @@ bool CSmtp::CreateConn()
 	addrSrv.sin_addr.S_un.S_addr = *((DWORD*)pHostent->h_addr_list[0]);	//得到smtp服务器的网络字节序的ip地址   
 	addrSrv.sin_family = AF_INET;
 	addrSrv.sin_port = htons(port);
-	int err = connect(sockClient, (SOCKADDR*)&addrSrv, sizeof(SOCKADDR));   //向服务器发送请求 
+	int err = connect(sockClient, (SOCKADDR*)& addrSrv, sizeof(SOCKADDR));   //向服务器发送请求 
 	if (err != 0)
 	{
 		return false;
@@ -112,8 +116,7 @@ bool CSmtp::CreateConn()
 	return true;
 }
 
-// 发送数据
-bool CSmtp::Send(string& message)
+bool CSmtp::Send(string & message)
 {
 	int err = send(sockClient, message.c_str(), message.length(), 0);
 	if (err == SOCKET_ERROR)
@@ -124,12 +127,11 @@ bool CSmtp::Send(string& message)
 	return true;
 }
 
-// 接收数据
 bool CSmtp::Recv()
 {
 	memset(buff, 0, sizeof(char) * (MAXLEN + 1));
 	int err = recv(sockClient, buff, MAXLEN, 0); //接收数据
-	if (recv(sockClient, buff, MAXLEN, 0) == SOCKET_ERROR)
+	if (err == SOCKET_ERROR)
 	{
 		return false;
 	}
@@ -138,7 +140,6 @@ bool CSmtp::Recv()
 	return true;
 }
 
-// 登陆SMTP服务器
 int CSmtp::Login()
 {
 	string sendBuff;
@@ -163,8 +164,7 @@ int CSmtp::Login()
 	sendBuff = user.substr(0, pos); //得到用户名
 
 	char* ecode;
-	// string类的length函数与C语言中的strlen函数的区别:
-	// strlen计算出来的长度，只到'\0'字符为止,而string::length()函数实际上返回的是string类中字符数组的大小
+	/*在这里顺带扯一句，关于string类的length函数与C语言中的strlen函数的区别,strlen计算出来的长度，只到'\0'字符为止,而string::length()函数实际上返回的是string类中字符数组的大小,你自己可以测试一下，这也是为什么我下面不使用string::length()的原因*/
 
 	ecode = Base64Encode(sendBuff.c_str(), strlen(sendBuff.c_str()));
 	sendBuff.empty();
@@ -200,8 +200,7 @@ int CSmtp::Login()
 	return 0;
 }
 
-// 发送邮件头部信息
-bool CSmtp::SendEmailHead()
+bool CSmtp::SendEmailHead()		//发送邮件头部信息
 {
 	string sendBuff;
 	sendBuff = "MAIL FROM: <" + user + ">\r\n";
@@ -216,7 +215,7 @@ bool CSmtp::SendEmailHead()
 	sendBuff = "RCPT TO: <" + targetAddr + ">\r\n";
 	sendBuff += "RCPT TO: <" + cc + ">\r\n";
 	sendBuff += "RCPT TO: <" + bcc + ">\r\n";
-
+	
 	if (false == Send(sendBuff) || false == Recv())
 	{
 		return false; /*表示发送失败由于网络错误*/
@@ -239,9 +238,8 @@ bool CSmtp::SendEmailHead()
 	return true;
 }
 
-// 格式化要发送的邮件头部
-void CSmtp::FormatEmailHead(string& email)
-{
+void CSmtp::FormatEmailHead(string & email)
+{/*格式化要发送的内容*/
 	email = "From: ";
 	email += user;
 	email += "\r\n";
@@ -270,8 +268,7 @@ void CSmtp::FormatEmailHead(string& email)
 	email += "\r\n";
 }
 
-// 发送文本信息	
-bool CSmtp::SendTextBody()
+bool CSmtp::SendTextBody()  /*发送邮件文本*/
 {
 	string sendBuff;
 	sendBuff = "--qwertyuiop\r\n";
@@ -282,11 +279,12 @@ bool CSmtp::SendTextBody()
 	return Send(sendBuff);
 }
 
-// 发送附件
-int CSmtp::SendAttachment_Ex()
+int CSmtp::SendAttachment_Ex() /*发送附件*/
 {
 	for (list<FILEINFO*>::iterator pIter = listFile.begin(); pIter != listFile.end(); pIter++)
 	{
+		//cout << "Attachment is sending ~~~~~" << endl;
+		//cout << "Please be patient!" << endl;
 		string sendBuff;
 		sendBuff = "--qwertyuiop\r\n";
 		sendBuff += "Content-Type: application/octet-stream;\r\n";
@@ -338,8 +336,7 @@ int CSmtp::SendAttachment_Ex()
 	return 0;
 }
 
-// 发送结尾信息
-bool CSmtp::SendEnd()
+bool CSmtp::SendEnd() /*发送结尾信息*/
 {
 	string sendBuff;
 	sendBuff = "--qwertyuiop--";
@@ -354,7 +351,6 @@ bool CSmtp::SendEnd()
 	return (Send(sendBuff) && Recv());
 }
 
-// 错误1.网络错误导致的错误 2.用户名错误 3.密码错误 4.文件不存在 0.成功
 int CSmtp::SendEmail_Ex()
 {
 	if (false == CreateConn())
@@ -362,12 +358,12 @@ int CSmtp::SendEmail_Ex()
 		return 1;
 	}
 	//Recv();
-	int err = Login(); // 登录
+	int err = Login(); //先登录
 	if (err != 0)
 	{
-		return err; // 返回错误代码
+		return err; //错误代码必须要返回
 	}
-	if (false == SendEmailHead()) // 发送EMAIL头部信息
+	if (false == SendEmailHead()) //发送EMAIL头部信息
 	{
 		return 1; /*错误码1是由于网络的错误*/
 	}
@@ -387,8 +383,7 @@ int CSmtp::SendEmail_Ex()
 	return 0; /*0表示没有出错*/
 }
 
-// 添加附件
-void CSmtp::AddAttachment(string& filePath)
+void CSmtp::AddAttachment(string & filePath) //添加附件
 {
 	FILEINFO* pFile = new FILEINFO;
 	strcpy_s(pFile->filePath, filePath.c_str());
@@ -397,7 +392,7 @@ void CSmtp::AddAttachment(string& filePath)
 	listFile.push_back(pFile);
 }
 
-//void CSmtp::DeleteAttachment(string& filePath) //删除附件
+//void CSmtp::DeleteAttachment(string & filePath) //删除附件
 //{
 //	list<FILEINFO*>::iterator pIter;
 //	for (pIter = listFile.begin(); pIter != listFile.end(); pIter++)
@@ -421,38 +416,38 @@ void CSmtp::AddAttachment(string& filePath)
 //		delete p;
 //	}
 //}
-
-//void CSmtp::SetSrvDomain(string& domain)
+//
+//void CSmtp::SetSrvDomain(string & domain)
 //{
 //	this->domain = domain;
 //}
 //
-//void CSmtp::SetUserName(string& user)
+//void CSmtp::SetUserName(string & user)
 //{
 //	this->user = user;
 //}
 //
-//void CSmtp::SetPass(string& pass)
+//void CSmtp::SetPass(string & pass)
 //{
 //	this->pass = pass;
 //}
-//void CSmtp::SetTargetEmail(string& targetAddr)
+//void CSmtp::SetTargetEmail(string & targetAddr)
 //{
 //	this->targetAddr = targetAddr;
 //}
-//void CSmtp::SetCC(string& cc)
+//void CSmtp::SetCC(string & cc)
 //{
 //	this->cc = cc;
 //}
-//void CSmtp::SetBCC(string& bcc)
+//void CSmtp::SetBCC(string & bcc)
 //{
 //	this->bcc = bcc;
 //}
-//void CSmtp::SetEmailTitle(string& title)
+//void CSmtp::SetEmailTitle(string & title)
 //{
 //	this->title = title;
 //}
-//void CSmtp::SetContent(string& content)
+//void CSmtp::SetContent(string & content)
 //{
 //	this->content = content;
 //}
