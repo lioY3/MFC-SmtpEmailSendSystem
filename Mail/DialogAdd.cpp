@@ -62,10 +62,10 @@ void DialogAdd::OnBnClickedOk()
 		{
 			MessageBox(TEXT("添加好友成功！"));
 			total_friend = get_all_friend();
-			this->ShowWindow(SW_HIDE);
-			DialogSend dlg;
+			//this->ShowWindow(SW_HIDE);
+			/*DialogSend dlg;
 			dlg.DoModal();
-			this->ShowWindow(SW_SHOW);
+			this->ShowWindow(SW_SHOW);*/
 		}
 	}
 	
