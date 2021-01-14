@@ -81,6 +81,8 @@ END_MESSAGE_MAP()
 
 BOOL CMailDlg::OnInitDialog()
 {
+	/*初始化窗口之前先连接数据库*/
+	ConnectDatabase();
 	CDialogEx::OnInitDialog();
 
 	// 将“关于...”菜单项添加到系统菜单中。
@@ -122,6 +124,8 @@ void CMailDlg::OnSysCommand(UINT nID, LPARAM lParam)
 	}
 	else
 	{
+		/*关闭窗口前关闭数据库连接*/
+		mysql_close(mysql);
 		CDialogEx::OnSysCommand(nID, lParam);
 	}
 }
@@ -132,7 +136,7 @@ void CMailDlg::OnSysCommand(UINT nID, LPARAM lParam)
 
 void CMailDlg::OnPaint()
 {
-	ConnectDatabase();
+	
 	if (IsIconic())
 	{
 		CPaintDC dc(this); // 用于绘制的设备上下文
