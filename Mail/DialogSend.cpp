@@ -169,6 +169,17 @@ void DialogSend::OnBnClickedMfcbuttonadd()
 void DialogSend::OnBnClickedMfcbuttondecrease()
 {
 	// TODO:响应删除好友按钮
+	int i = m_Friend.GetCurSel();
+	if (i >= 0)
+	{
+		CString text;
+		m_Friend.GetText(i, text);
+		AfxMessageBox(text);
+	}
+	else
+	{
+		AfxMessageBox("未选中。");
+	}
 }
 
 
