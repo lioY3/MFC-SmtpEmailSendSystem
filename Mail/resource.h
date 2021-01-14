@@ -44,6 +44,7 @@
 #define IDC_MFCBUTTONADD                1008
 #define IDC_BTN_DISC                    1009
 #define IDC_MFCBUTTONDECREASE           1009
+#define IDRESET                         1009
 #define IDCANCAL                        1010
 #define IDC_BTN_VIEW                    1011
 #define IDC_BTN_SAVE                    1012
@@ -69,7 +70,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        151
 #define _APS_NEXT_COMMAND_VALUE         32773
-#define _APS_NEXT_CONTROL_VALUE         1009
+#define _APS_NEXT_CONTROL_VALUE         1010
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
