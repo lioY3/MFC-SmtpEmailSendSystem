@@ -23,4 +23,5 @@ protected:
 public:
 	CString m_add_username;
 	afx_msg void OnBnClickedOk();
+	afx_msg void OnBnClickedReset();
 };

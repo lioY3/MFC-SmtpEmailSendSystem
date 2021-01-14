@@ -33,6 +33,7 @@ void DialogAdd::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(DialogAdd, CDialogEx)
 	ON_BN_CLICKED(IDOK, &DialogAdd::OnBnClickedOk)
+	ON_BN_CLICKED(IDRESET, &DialogAdd::OnBnClickedReset)
 END_MESSAGE_MAP()
 
 
@@ -68,4 +69,12 @@ void DialogAdd::OnBnClickedOk()
 		}
 	}
 	
+}
+
+
+void DialogAdd::OnBnClickedReset()
+{
+	// TODO: 响应重置按钮
+	m_add_username=_T("");
+	UpdateData(FALSE);
 }
