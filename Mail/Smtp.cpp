@@ -1,11 +1,8 @@
 #include "pch.h"
 #include "Smtp.h"
-#include <iostream>
 #include <fstream>
 using namespace std;
 
-
-#pragma  comment(lib, "ws2_32.lib")	/*链接ws2_32.lib动态链接库*/
 
 // 将字符串转换为base64编码
 char* CSmtp::Base64Encode(char const* origSigned, unsigned origLength)
